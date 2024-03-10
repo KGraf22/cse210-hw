@@ -20,10 +20,12 @@ class Program
             switch (option)
             {
                 case "1":
+                    string randomPrompt = promptGenerator.GetRandomPrompt();
+                    Console.WriteLine($"Prompt: {randomPrompt}");
                     Console.WriteLine("Enter your response: ");
                     string entryText = Console.ReadLine();
-                    
                     theJournal.AddEntry(new Entry(DateTime.Now.ToString("yyyy-MM-dd"), promptGenerator.GetRandomPrompt(), entryText));
+                    theJournal.DisplayAll();
                     break; 
                 case "2":
                     theJournal.DisplayAll();

@@ -11,9 +11,18 @@ public class Journal
         _entries = new List<Entry>();
     }
 
-    public void AddEntry(Entry newEntry) => _entries.Add(newEntry);
+    public void AddEntry(Entry newEntry)
+    {
+        _entries.Add(newEntry);
+    }
     public void DisplayAll()
     {
+        if (_entries.Count ==0)
+        {
+            Console.WriteLine("No entries found.");
+            return;
+        }
+
         foreach (var entry in _entries)
         {
             entry.Display();
@@ -44,18 +53,32 @@ public class Journal
 
     public void LoadFromFile(string file)
     {
-        _entries.Clear();
-        using (StreamReader reader = new StreamReader(file))
-        {
-            string line;
-            while ((line = reader.ReadLine()) != null)
+        try
+        {       
+            _entries.Clear();
+            using (StreamReader reader = new StreamReader(file))
             {
-                string[] parts = line.Split("|");
-                _entries.Add(new Entry(parts[0], parts[1], parts[2]));
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] parts = line.Split("|");
+                    if (parts.Length == 3)
+                    {
+                        _entries.Add(new Entry(parts[0], parts[1], parts[2]));
+                    }
+                }
 
-                
             }
+        
+            Console.WriteLine("Journal entries loaded from the file successfully.");
         }
-
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("File not found. Please try again.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading journal entries: {ex.Message}");
+        }
     }
 }
