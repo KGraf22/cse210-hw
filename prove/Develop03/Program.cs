@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 public class Word
 {
-    private string _text;
+    private readonly string _text;
     private bool _isHidden;
+    //private string _text;
 
-    public Word(string _text)
+    public Word(string text)
     {
         _text = text;
         _isHidden = false;
@@ -48,29 +49,50 @@ public class Scripture
         _reference = reference;
         _words = new List<Word>();
 
+        string[] wordArray = text.Split(' ');
+        foreach (string word in wordArray)
+        {
+            _words.Add(new Word(word));
+        }
+
     }
 
 
     public void HideRandomWords(int numberToHide)
     {
+        Random random = new Random();
+        for (int i = 0; i < numberToHide; i++)
+        {
+            int index = random.Next(_words.Count);
+            _words[index].Hide();
+        }
 
     }
 
     public string GetDisplayText()
     {
-
+        string displayText = _reference.GetDisplayText() + "\n";
+        foreach(Word word in _words)
+        {
+            displayText += word.GetDisplayText() + " ";
+        }
+        return displayText.Trim();
     }
   
-    public void IsCompletelyHidden()
+    public bool IsCompletelyHidden()
     {
-
+        foreach (Word word in _words)
+        {
+            if (!word.IsHidden())
+                return false;
+        }
+        return true;
     }
     public void Display()
-    {
-
-
+    {   
+        Console.WriteLine(GetDisplayText());
     }
-
+}
 public class Reference
 {
     private string _book;
@@ -78,7 +100,7 @@ public class Reference
     private int _verse;
     private int _endVerse;
 
-    public Reference(string _book, int _chapter, int _verse)
+    public Reference(string book, int chapter, int verse)
     {
         _book = book;
         _chapter = chapter;
@@ -86,7 +108,7 @@ public class Reference
 
     }
 
-    public Reference( string _book, int chapter, int _startVerse, int endVerse)
+    public Reference( string book, int chapter, int startVerse, int endVerse)
     {
         _book = book;
         _chapter = chapter;
@@ -97,14 +119,28 @@ public class Reference
 
     public string GetDisplayText()
     {
+        if (_endVerse == 0)
+        {
+            return $"{_book} {_chapter}: {_verse}";
+        }
+        else
+        {
+            return $"{_book}{_chapter}:{_verse}-{_endVerse}";
+        }
+         
         
     }
  
-
+}
 public class Program
 {
     public static void Main(string[] args)
     {
+        Reference reference = new Reference("John", 3, 16);
+        string scriptureText = "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
+        Scripture scripture = new Scripture(reference, scriptureText);
+
+        scripture.Display(); 
 
     }
 }
