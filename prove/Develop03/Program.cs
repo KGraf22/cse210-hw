@@ -126,7 +126,7 @@ public class Reference
         }
         else
         {
-            return $"{_book}{_chapter}:{_verse}-{_endVerse}";
+            return $"{_book} {_chapter}:{_start}-{_endVerse}";
         }
          
         
@@ -137,21 +137,24 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Reference reference = new Reference("John", 3, 16);
-        string scriptureText = "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
+        Console.WriteLine("Press Enter to see the scripture.");
+        Reference reference = new Reference("John", 3, 16, 17);
+        string scriptureText = "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. For God sent not his Son into the world to condemn the world; but that the world through him might be saved.";
         Scripture scripture = new Scripture(reference, scriptureText);
 
         Random random = new Random();
         while (!scripture.IsCompletelyHidden())
         {
-            Console.Clear();
-            Console.WriteLine("Press enter to hide a random word.");
+            Console.ReadLine();
+            //Console.Clear();
+            scripture.Display();
+            Console.WriteLine("Press  enter to hide a random word.");
+            
             string input = Console.ReadLine();
             if (input.ToLower() == "quit")
                 break;
 
             scripture.HideRandomWords(1);
-            scripture.Display();
         }
 
     }
