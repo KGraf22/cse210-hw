@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Word
 {
-    private readonly string _text;
+    private string _text;
     private bool _isHidden;
     //private string _text;
 
@@ -98,6 +98,7 @@ public class Reference
     private string _book;
     private int _chapter;
     private int _verse;
+    private int _start;
     private int _endVerse;
 
     public Reference(string book, int chapter, int verse)
@@ -112,7 +113,7 @@ public class Reference
     {
         _book = book;
         _chapter = chapter;
-        _verse = startVerse;
+        _start = startVerse;
         _endVerse = endVerse;
 
     }
@@ -140,7 +141,18 @@ public class Program
         string scriptureText = "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
         Scripture scripture = new Scripture(reference, scriptureText);
 
-        scripture.Display(); 
+        Random random = new Random();
+        while (!scripture.IsCompletelyHidden())
+        {
+            Console.Clear();
+            Console.WriteLine("Press enter to hide a random word.");
+            string input = Console.ReadLine();
+            if (input.ToLower() == "quit")
+                break;
+
+            scripture.HideRandomWords(1);
+            scripture.Display();
+        }
 
     }
 }
