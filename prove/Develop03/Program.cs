@@ -32,7 +32,7 @@ public class Word
     public string GetDisplayText()
     {
         if (_isHidden)
-            return "_";
+            return new string('_', _text.Length);
         else 
             return _text;
 
@@ -146,7 +146,7 @@ public class Program
         while (!scripture.IsCompletelyHidden())
         {
             Console.ReadLine();
-            //Console.Clear();
+            Console.Clear();
             scripture.Display();
             Console.WriteLine("Press  enter to hide a random word.");
             
@@ -156,7 +156,7 @@ public class Program
 
             scripture.HideRandomWords(1);
         }
-
+        Console.WriteLine("You have successfully memorized the scripture.");
     }
 }
         
