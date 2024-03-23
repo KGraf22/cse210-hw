@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
+using System.Threading;
 public abstract class MindfulnessActivity
 {
     private string _name;            
     private string _description;
-    private int _duration;
+    protected int _duration;
 
     public MindfulnessActivity( string name, string description, int duration)
     {
@@ -16,18 +19,39 @@ public abstract class MindfulnessActivity
     
     public void StartActivity()
     {
-        Console.WriteLine($"Starting{_name} activity...");
+        Console.WriteLine($"Starting {_name} activity...");
         Console.WriteLine(_description);
         Console.WriteLine("Get ready to begin in 3 seconds...");
-        System.Threading.Thread.Sleep(3000);
+        DisplayCountdown(3);
     }
 
     public void EndActivity()
     {
         Console.WriteLine($"Congratulations! You've completed the {_name} activity");
         Console.WriteLine($"Activity duration: {_duration} seconds");
+        Thread.Sleep(2000);
         Console.WriteLine("Well done!\n");
-        System.Threading.Thread.Sleep(3000);
+        Thread.Sleep(3000);
+    }
+
+    protected void DisplayCountdown(int seconds)
+    {
+        for(int i = seconds; i>0; i--)
+        {
+            Console.Write($"{i} ");
+            Thread.Sleep(1000);
+        }
+        Console.WriteLine();
+    }
+
+    protected void DisplayAnimation(int duration)
+    {
+        for (int i = 0; i<duration; i++)
+        {
+            Console.Write(". ");
+            Thread.Sleep(500);
+        }
+        Console.WriteLine();
     }
 }
 public class BreathingActivity: MindfulnessActivity
@@ -40,20 +64,27 @@ public class BreathingActivity: MindfulnessActivity
     public void Run()
     {
         base.StartActivity();
+        
+        DateTime endTime = DateTime.Now.AddSeconds(_duration);
+        while (DateTime.Now < endTime)  
+        {                                                                    
 
-        Console.WriteLine("Breathing in ...");
-        System.Threading.Thread.Sleep(3000);
+            Console.WriteLine("Breathe in ...");
+            
+            DisplayAnimation(4);
 
-        Console.WriteLine("Breathing out...");
-        System.Threading.Thread.Sleep(3000);
-
-        //Need to repeat until duration is reached
-
-
+            if (DateTime.Now < endTime)
+            {
+                Console.WriteLine("Breathe out...");
+                
+                DisplayAnimation(5);
+            }
+    
+        }
         base.EndActivity();
     }
 }
-
+  
 public class ListingActivity : MindfulnessActivity
 {
     private List<string> _prompts;   
@@ -67,15 +98,26 @@ public class ListingActivity : MindfulnessActivity
     {
         base.StartActivity();
 
-        Console.WriteLine("Think about the prompt...");
-        System.Threading.Thread.Sleep(3000);
-
-        Console.WriteLine("Start listing items...");
-
-        //Need to allow time for listing until time is up
-
-
+        Console.WriteLine("Make a list of things in your life that you are grateful for.");
+        //Thread.Sleep((_duration-5)*1000); 
+        
+        //Console.WriteLine("Start listing items...");
+        DateTime endTime = DateTime.Now.AddSeconds(_duration);
+        while (DateTime.Now < endTime)
+        {
+            Console.Write("Enter your list: ");
+            string prompt = Console.ReadLine();
+            _prompts.Add(prompt);
+        }
+        
+        
         Console.WriteLine($"Number of items listed: {_prompts.Count}");
+        Console.WriteLine("List of prompts: ");
+        foreach (var prompt in _prompts)
+        {
+            Console.WriteLine(prompt);
+        }
+        
         base.EndActivity();
     }
 }
@@ -97,29 +139,40 @@ public class ReflectingActivity : MindfulnessActivity
     {
         base.StartActivity();
 
-        Console.WriteLine("What would you like to do?");
-        System.Threading.Thread.Sleep(3000);
-
         string randomPrompt = GetRandomPrompt();
+        
         Console.WriteLine($"Prompt: {randomPrompt}");
+        
+        DateTime endTime = DateTime.Now.AddSeconds(_duration);
+        while (DateTime.Now < endTime)
+        {
+            Console.ReadLine();
 
-        Console.WriteLine("Reflecting on the prompt...");
-
+        }
+        //string randomQuestion = GetRandomQuestion();
+        //Console.WriteLine($"Question: {randomQuestion}");
         foreach (string question in _questions)
         {
             Console.WriteLine($"Question: {question}");
-            System.Threading.Thread.Sleep(3000);
+            Console.ReadLine();
+            
         }
 
         base.EndActivity();
 
     }
-    public string GetRandomPrompt()
+    protected string GetRandomPrompt()
     {
         Random rand = new Random();
         int index = rand.Next(_prompts.Count);
         return _prompts[index];
     }
+    //protected string GetRandomQuestion();
+    //{
+    //    Random random= new Random();
+    //    int index = random.Next(_questions.Count);
+    //    return _questions[index];
+    //}
 }
 
 class Program
@@ -172,14 +225,14 @@ class Program
         Console.WriteLine("\nStarting Reflection Activity...");
         List<string> prompts = new List<string> { "Think of a time when you stood up for someone else.", "Think of a time when you did something really difficult.", "Think of a time when you helped someone in need.", "Think of a time when you did something truly selfless." };
         List<string> questions = new List<string> { "Why was this experience meaningful to you?", "Have you ever done anything like this before?", "How did you get started?", "How did you feel when it was complete?", "What made this time different than other times when you were not as successful?" };
-        ReflectingActivity reflectingActivity = new ReflectingActivity("Reflecting","This activity will hel you to reflect on times when you were able to succeed through your trials.",45, prompts, questions);
+        ReflectingActivity reflectingActivity = new ReflectingActivity("Reflecting","This activity will help you to reflect on times when you were able to succeed through your trials.",45, prompts, questions);
         reflectingActivity.Run();
     }
 
     static void StartListingActivity()
     {
         Console.WriteLine("\nStarting Listing Activity...");
-        ListingActivity listingActivity = new ListingActivity("Listing","This activity will help by helping you reflect on the good things in your life by making a list. Counting your blessings.", 60);
+        ListingActivity listingActivity = new ListingActivity("Listing","This activity will help you reflect on the good things in your life by making a list. Counting your blessings.", 45);
         listingActivity.Run();
     }
 }   
