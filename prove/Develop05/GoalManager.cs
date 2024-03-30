@@ -1,15 +1,20 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
+using System.IO.Enumeration;
+
 
 public class GoalManager
 {
     private List<Goal> _goals;
+    private string _filename;
     private int _score;
 
-    public GoalManager() 
+    public GoalManager(string filename) 
     {
         _goals = new List<Goal>();
         _score = 0;
+        _filename = filename;
     }
     
     public void Start()
@@ -25,9 +30,16 @@ public class GoalManager
     public void ListGoalNames()
     {
         Console.WriteLine("List of Goals:");
-        foreach (Goal goal in _goals)
+        if (_goals.Count == 0)
         {
-            Console.WriteLine(goal.GetDetailsString());
+            Console.WriteLine("No goals available.");
+        }
+        else
+        {
+            foreach (Goal goal in _goals)
+            {
+                Console.WriteLine(goal.GetDetailsString());
+            }
         }
     }
     public void ListGoalTypes()
@@ -41,7 +53,7 @@ public class GoalManager
     public void CreateGoal()
     {
         
-        Console.WriteLine("Enter goal type (1: Simple, 2: Eternal, Checklist): ");
+        Console.WriteLine("Enter goal type number (1: Simple, 2: Eternal, Checklist): ");
         int type = Convert.ToInt32(Console.ReadLine());
 
         Console.WriteLine("Enter goal name: ");
@@ -94,12 +106,50 @@ public class GoalManager
 
     public void SaveGoals()
     {
-        Console.WriteLine("Saving goals to a file...");
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(_filename))
+            {
+                foreach (Goal goal in _goals)
+                {
+                    writer.WriteLine(goal.GetStringRepresentation());
+                }
+            }
+            Console.WriteLine($"Goals saved to '{_filename}' successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error occured while saving goals: {ex.Message}");
+        }
+        
     }
 
     public void LoadGoals()
     {
-        Console.WriteLine("Loading goals from a file...");
+        try{
+            if (File.Exists(_filename))
+            {
+                using (StreamReader reader = new StreamReader(_filename))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(',');
+                    }
+                }
+                Console.WriteLine($"Goals loaded from '{_filename}' successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"File '{_filename}' does not exist. No goals loaded");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error occurred while loading goals: {ex.Message}");
+
+        }
+        
     }
     
        

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 class Program
 {
@@ -27,22 +28,27 @@ class Program
             switch (choice)
             {
                 case 1:
+                    manager.CreateGoal();
+                    break;
+
+                case 2:
                     manager.ListGoalNames();
                     break;
-                case 2:
-                    manager.SaveGoals();
-                    break;
+                
                 case 3:
                     manager.SaveGoals();
                     break;
+               
                 case 4:
                     manager.LoadGoals();
                     break;
+               
                 case 5:
-                    Console.WriteLine("Enter the name of the goal: ");
+                    Console.WriteLine("Record your goal: ");
                     string goalName = Console.ReadLine();
                     manager.RecordEvent(goalName);
                     break;
+                
                 case 6:
                     quit = true;
                     Console.WriteLine("Exiting...");
