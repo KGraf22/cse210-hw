@@ -29,4 +29,12 @@ public class ChecklistGoal : Goal
         return $"ChecklistGoal: {_shortName}, {_description}, {_points}, {_amountCompleted}/{_target}, {_bonus}";
 
     }
+    public override int CalculatePoints()
+    {
+        if (_amountCompleted >= _target)
+        {
+            return _points + _bonus;
+        }
+        return _amountCompleted * _points;
+    }
 }

@@ -21,4 +21,8 @@ public class SimpleGoal: Goal
     {
         return $"Simple Goal: {_shortName}, {_description}, {_points}, {_isComplete}";
     }
+    public override int CalculatePoints()
+    {
+        return _isComplete ? _points : 0;
+    }
 }
