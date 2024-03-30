@@ -23,6 +23,7 @@ public abstract class Goal
         return _description;
     }
     public abstract void RecordEvent();
+    
 
     public abstract bool IsComplete();
 

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.IO.Enumeration;
+
 
 
 public class GoalManager
@@ -59,9 +59,8 @@ public class GoalManager
         Console.WriteLine("Enter goal name: ");
         string name = Console.ReadLine();
 
-        string description = "";
         Console.WriteLine("Enter goal description: ");
-        description = Console.ReadLine();
+        string description = Console.ReadLine();
 
         Console.WriteLine("Enter points for completing the goal: ");
         int points = Convert.ToInt32(Console.ReadLine());

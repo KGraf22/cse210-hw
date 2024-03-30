@@ -6,7 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        GoalManager manager = new GoalManager();
+        GoalManager manager = new GoalManager("myFile.txt");
         Console.WriteLine("You have 0 points");
 
         manager.Start();
@@ -23,42 +23,50 @@ class Program
             Console.WriteLine("6. Quit");
 
             Console.WriteLine("Enter your choice: ");
-            int choice = Convert.ToInt32(Console.ReadLine());
-
-            switch (choice)
+            if (int.TryParse(Console.ReadLine(),out int choice))
             {
-                case 1:
-                    manager.CreateGoal();
-                    break;
 
-                case 2:
-                    manager.ListGoalNames();
-                    break;
-                
-                case 3:
-                    manager.SaveGoals();
-                    break;
-               
-                case 4:
-                    manager.LoadGoals();
-                    break;
-               
-                case 5:
-                    Console.WriteLine("Record your goal: ");
-                    string goalName = Console.ReadLine();
-                    manager.RecordEvent(goalName);
-                    break;
-                
-                case 6:
-                    quit = true;
-                    Console.WriteLine("Exiting...");
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
+            
+            //int choice = Convert.ToInt32(Console.ReadLine());
 
+                switch (choice)
+                {
+                    case 1:
+                        manager.CreateGoal();
+                        break;
+
+                    case 2:
+                        manager.ListGoalNames();
+                        break;
+                
+                    case 3:
+                        manager.SaveGoals();
+                        break;
+               
+                    case 4:
+                        manager.LoadGoals();
+                        break;
+               
+                    case 5:
+                        Console.WriteLine("Record your goal: ");
+                        string goalName = Console.ReadLine();
+                        manager.RecordEvent(goalName);
+                        break;
+                
+                    case 6:
+                        quit = true;
+                        Console.WriteLine("Exiting...");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+
+                }
             }
-              
+            else{
+                Console.WriteLine("Invalid input. Please enter a number.");
+                Console.ReadLine();
+            }  
 
         }
         
