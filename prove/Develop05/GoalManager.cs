@@ -24,7 +24,11 @@ public class GoalManager
 
     public void DisplayPlayerInfo()
     {
+        Console.WriteLine($"The goals are:");
+        ListGoalNames();
+        Console.WriteLine();
         Console.WriteLine($"Current Score: {_score}");
+        Console.WriteLine();
     } 
 
     public void ListGoalNames()
@@ -53,7 +57,7 @@ public class GoalManager
     public void CreateGoal()
     {
         
-        Console.WriteLine("Enter goal type number (1: Simple, 2: Eternal, Checklist): ");
+        Console.WriteLine("Enter goal type number (1: Simple, 2: Eternal, 3: Checklist): ");
         int type = Convert.ToInt32(Console.ReadLine());
 
         Console.WriteLine("Enter goal name: ");
