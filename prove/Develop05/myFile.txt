@@ -1,2 +1,1 @@
-Simple Goal: clean house, clean the kitchen, 50, False
-Simple Goal: homework, completing homework, 25, False
+

@@ -4,13 +4,15 @@ public class SimpleGoal: Goal
 {
     private bool _isComplete;
 
-    public SimpleGoal(string name, string description, int points) : base(name, description, points)
+    public SimpleGoal(string name, string description, int points, int xp) : base(name, description, points, xp)
     {
         _isComplete = false;    
     }
     public override void RecordEvent()
     {
         _isComplete = true;
+        _xp += 100;
+        CheckLevelUp();
     }
     public override bool IsComplete()
     {

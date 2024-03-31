@@ -6,7 +6,7 @@ public class ChecklistGoal : Goal
     private int _target;
     private int _bonus;
 
-    public ChecklistGoal(string name, string description, int points, int target, int bonus) : base(name, description, points)
+    public ChecklistGoal(string name, string description, int points, int target, int bonus, int xp) : base(name, description, points, xp)
     {
         _amountCompleted = 0;
         _target = target;
@@ -15,6 +15,8 @@ public class ChecklistGoal : Goal
     public override void RecordEvent()
     {
         _amountCompleted++;
+        _xp += 100;
+        CheckLevelUp();
     }
     public override bool IsComplete()
     {

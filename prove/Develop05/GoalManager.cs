@@ -29,6 +29,11 @@ public class GoalManager
         Console.WriteLine();
         Console.WriteLine($"Current Score: {_score}");
         Console.WriteLine();
+        foreach (Goal goal in _goals)
+        {
+            Console.WriteLine($"Current Level: {goal.GetLevel()}");
+        }
+        Console.WriteLine();
     } 
 
     public void ListGoalNames()
@@ -69,13 +74,15 @@ public class GoalManager
         Console.WriteLine("Enter points for completing the goal: ");
         int points = Convert.ToInt32(Console.ReadLine());
 
+        Console.WriteLine("Enter XP for the goal: ");
+        int xp = Convert.ToInt32(Console.ReadLine());
         switch (type)
         {
             case 1: 
-                _goals.Add(new SimpleGoal(name, description, points));
+                _goals.Add(new SimpleGoal(name, description, points, xp));
                 break;
             case 2:
-                _goals.Add(new EternalGoal(name, description, points));
+                _goals.Add(new EternalGoal(name, description, points, xp));
                 break;
             case 3:
                 Console.WriteLine("Enter target count for the checklist goal");
@@ -84,7 +91,7 @@ public class GoalManager
                 Console.WriteLine("Enter bonus points for completing the checklist goal: ");
                 int bonus = Convert.ToInt32(Console.ReadLine());
 
-                _goals.Add(new ChecklistGoal(name, description, points, target, bonus));
+                _goals.Add(new ChecklistGoal(name, description, points, target, bonus, xp));
                 break;
             default:
                 Console.WriteLine("Invalid goal type. ");
