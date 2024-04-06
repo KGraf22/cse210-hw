@@ -4,7 +4,7 @@ public class Comment
 {
     public string Text;
     public string UserName;
-    public string AuthorName;
+    
 
     public Comment(string userName, string text)
     {
