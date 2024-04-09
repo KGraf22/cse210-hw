@@ -7,6 +7,7 @@ class Program
     {
         DateTime now = DateTime.Now;
         string formattedDateTime = now.ToString("dd MMM yyyy");
+        
         List<Activity> activities = new List<Activity>();
 
         
@@ -21,6 +22,8 @@ class Program
         foreach (Activity activity in activities)
         {
             Console.WriteLine(activity.GenerateSummary(now));
+            
+
         }
 
        
